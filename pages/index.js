@@ -2,10 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {useState, useEffect} from "react"
+import Link from "next/link"
 
-
-export async  function getServerSideProps(context){
-  const fethPosts = await fetch("https://gorest.co.in/public/v2/posts")
+export async  function getStaticProps(context){
+  const fethPosts = await fetch("https://jsonplaceholder.typicode.com/posts")
     const data = await fethPosts.json()
 
   return {
@@ -16,7 +16,7 @@ export default function Home(props) {
   const [posts, setPosts]=useState([])
 
 
-console.log("data is ", props.data)
+console.log("Get static props data is ", props.data)
 useEffect(()=>{
   
   if(props.data){
@@ -38,8 +38,8 @@ useEffect(()=>{
      <div>Hello Next</div>
 {posts.map((post)=>{
   return <div key={post.id}>
-    <h1>{post.title}</h1>
-    <p style={{marginTop:"10px"}}>{post.body}</p>
+    <Link href={`posts/${post.id}`}><a><h1>{post.title}</h1></a></Link>
+    <p style={{marginTop:"10px"}}>{post.body.slice(0,300)+"..."}</p>
   </div>
 })}
       
