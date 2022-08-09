@@ -1,8 +1,32 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {useState, useEffect} from "react"
 
-export default function Home() {
+
+export async  function getServerSideProps(context){
+  const fethPosts = await fetch("https://gorest.co.in/public/v2/posts")
+    const data = await fethPosts.json()
+
+  return {
+    props:{data}
+  }
+    }
+export default function Home(props) {
+  const [posts, setPosts]=useState([])
+
+
+console.log("data is ", props.data)
+useEffect(()=>{
+  
+  if(props.data){
+    setPosts(props.data)
+  }
+  
+  }
+  
+
+  , [])
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +36,12 @@ export default function Home() {
       </Head>
 
      <div>Hello Next</div>
-
+{posts.map((post)=>{
+  return <div>
+    <h1>{post.title}</h1>
+    <p style={{marginTop:"10px"}}>{post.body}</p>
+  </div>
+})}
       
     </div>
   )
