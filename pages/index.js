@@ -37,7 +37,7 @@ useEffect(()=>{
 
      <div>Hello Next</div>
 {posts.map((post)=>{
-  return <div>
+  return <div key={post.id}>
     <h1>{post.title}</h1>
     <p style={{marginTop:"10px"}}>{post.body}</p>
   </div>
